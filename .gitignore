@@ -22,3 +22,33 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# IDE specific files
+# IntelliJ IDEA 
+*.iml
+.idea   
+*.ipr
+*.iws   
+*.hprof
+*.ipr
+*.iws       
+*.idea/workspace.xml
+
+# Visual Studio Code
+.vscode/
+.settings.json
+*.code-workspace
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/extensions.json
+.vscode/*.code-workspace
+.vscode/*.sublime-project
+.vscode/*.sublime-workspace
+.vscode/*.sublime-settings
+.vscode/*.sublime-keymap
+.vscode/*.sublime-menu
+.vscode/*.sublime-theme
+.vscode/*.sublime-completions
+.vscode/*.sublime-syntax
+
+
