@@ -1,156 +1,120 @@
-# 🍊 Orange Robot Selenium
+# 🚀 Automação de Testes REST com Java
 
-[![Python](https://img.shields.io/badge/Python-3.12.3-blue.svg)](https://www.python.org/)
-[![Robot Framework](https://img.shields.io/badge/Robot_Framework-7.2.2-green.svg)](https://robotframework.org/)
-[![Selenium](https://img.shields.io/badge/Selenium-6.7.1-red.svg)](https://www.selenium.dev/)
+[![Java](https://img.shields.io/badge/java-21-orange.svg)](https://www.oracle.org/)
+[![RestAssured](https://img.shields.io/badge/RestAssured-5.4.0-brightgreen.svg)](https://rest-assured.io/)
+[![JUnit](https://img.shields.io/badge/JUnit-5.9.3-blue.svg)](https://junit.org/junit5/)
+[![Maven](https://img.shields.io/badge/Maven-3.9.6-red.svg)](https://maven.apache.org/)
+[![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 
-Projeto de automação de testes WEB para o [OrangeHRM](https://opensource-demo.orangehrmlive.com/) utilizando Robot Framework com abordagem BDD.
+Projeto de automação de testes para APIs REST utilizando Java e bibliotecas modernas como RestAssured e JUnit 5.
 
-## 📌 Índice
+## 📌 Features
 
-- [Visão Geral](#-visão-geral)
-- [Pré-requisitos](#-pré-requisitos)
-- [Instalação](#-instalação)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Executando Testes](#-executando-testes)
-- [Relatórios](#-relatórios)
-- [Gherkin/BDD](#-gherkinbdd)
-- [CI/CD](#-cicd)
-- [Contribuição](#-contribuição)
+- Testes de API REST automatizados
+- Suporte a autenticação (OAuth2, JWT, Basic Auth)
+- Validação de schemas JSON com JsonSchemaValidator
+- Geração de relatórios Allure
+- Integração contínua (CI) com GitHub Actions
+- Design Pattern: Page Objects para APIs
 
-## 🌟 Visão Geral
+## 🛠️ Tecnologias
 
-Automação de testes funcionais para o sistema OrangeHRM com:
+- **Java 21** (LTS)
+- **RestAssured** (Para chamadas HTTP)
+- **JUnit 5** (Framework de testes)
+- **Maven** (Gerenciamento de dependências)
+- **Allure Report** (Relatórios de testes)
+- **Lombok** (Redução de boilerplate code)
+- **Faker** (Geração de dados fictícios)
 
-✔️ Cenários escritos em Gherkin  
-✔️ Geração de relatórios HTML detalhados  
-✔️ Integração com pipelines CI/CD  
-✔️ Padrão Page Objects  
+## ⚙️ Pré-requisitos
 
-**Tecnologias principais:**
-- 🐍 Python 3.12.3
-- 🤖 Robot Framework 7.2.2
-- 🌐  SeleniumLibrary 6.7.1
-- 🥒 Cucumber Reporting
+- JDK 21 ([Download](https://www.oracle.com/java/technologies/downloads/))
+- Maven 3.9.6+
+- IDE (IntelliJ, Eclipse ou VS Code)
 
-## 🛠️ Pré-requisitos
+## 🚀 Como Executar
 
-Antes de começar, verifique se possui instalado:
-
-- Python 3.12+
-- Pip (gerenciador de pacotes)
-- Navegador Chrome/Firefox (com drivers)
-- Git (para controle de versão)
-
-## 🔧 Instalação
-
-1. Clone o repositório:
+### Clonar o projeto
 ```bash
-git clone https://github.com/seu-usuario/orange-robot-selenium.git
+git clone https://github.com/seu-usuario/automacao-java-rest.git
+cd automacao-java-rest
+```
+## Executar testes
+```mvn test```
+
+## Gerar relatório Allure
+```mvn allure:report```  
+```mvn allure:serve```  
+
+## 📦 Estrutura do Projeto
+```plaintext
+src/
+├── main/
+│   └── java/
+│       └── core/
+│           ├── config/       # Configurações do RestAssured
+│           ├── utils/        # Utilitários (Helpers, Faker)
+│           └── models/       # POJOs para requisições/respostas
+└── test/
+    └── java/
+        ├── specs/            # Especificações de API (Endpoints)
+        ├── tests/            # Classes de teste
+        └── resources/
+            ├── schemas/      # JSON Schemas para validação
+            └── testdata/     # Dados de teste (JSON, YAML)
 ```
 
-2. Acesse o diretório do projeto:
+## 📝 Exemplo de Teste
+```java	
+import static io.restassured.RestAssured.*;  
+import static org.hamcrest.Matchers.*;  
+
+@Test
+@DisplayName("GET /users - Deve retornar lista de usuários")
+void testGetUsers() {
+    given()
+        .baseUri("https://api.example.com")
+        .auth().basic("user", "pass")
+    .when()
+        .get("/users")
+    .then()
+        .statusCode(200)
+        .body("size()", greaterThan(0))
+        .body("[0].email", containsString("@"));
+}
+```	
+### 🔧 Configuração Avançada
+rest-config.properties
+
+```properties
+base.url=https://api.example.com
+base.path=/api/v1
+timeout=5000
 ```
-cd orange-robot-selenium
-```
+### pom.xml (Dependências principais)
 
-3. Instale as dependências:
-```
-pip install -r requirements.txt
-```
-
-## 📂 Estrutura do Projeto
-
-```
-orange-robot-selenium/
-├── src/
-│   ├── resources/
-│   │   ├── features/       # Arquivos .feature
-│   │   └── data/           # Dados de teste
-│   ├── pages/              # Page Objects
-│   └── steps/              # Definições de steps
-├── reports/                # Relatórios gerados
-├── requirements.txt        # Dependências
-└── README.md               # Documentação
-```
-
-## ▶️ Executando Testes
-
-Executar todos os testes:
-```
-robot -d ./reports -i smoke tests/
-```
-Executar por tag:
-```
-robot -d ./reports -i login tests/suites/login.robot
-```
-
-Executar em modo headless:
-```
-robot -v HEADLESS:True -d ./reports tests/
-```
-
-## 📊 Relatórios
-Após execução, acesse:
-
-```reports/log.html ```- Relatório detalhado
-
-```reports/report.html``` - Sumário executivo
-
-## Exemplo de Relatório
-
-## 📝 Gherkin/BDD
-Exemplo de cenário:
-
-```
-gherkin
-
-Funcionalidade: Login no sistema
-
-  Cenário: Login com credenciais válidas
-    Dado que estou na página de login
-    Quando preencho o usuário "Admin" e senha "admin123"
-    E clico no botão de login
-    Então devo ver o dashboard principal
-```
-|**Palavras-chave:** |  |  
-|--------------------|--|  
-|**Dado** | Pré-condições |  
-|**Quando** | Ações do usuário|  
-|**Então** | Verificações|  
-|**E** | Continuidade de passos|  
-
-## 🔄 CI/CD
-Exemplo para .gitlab-ci.yml:
-```
-yaml
-stages:
-  - test
-
-robot-tests:
-  stage: test
-  script:
-    - pip install -r requirements.txt
-    - robot -d reports -i regression tests/
-  artifacts:
-    paths:
-      - reports/
-    expire_in: 1 week
+```xml
+<dependencies>
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>5.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.9.3</version>
+    </dependency>
+    <dependency>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-junit5</artifactId>
+        <version>2.24.0</version>
+    </dependency>
+</dependencies>
 ```
 
-Variáveis de ambiente:
-```
-BASE_URL=https://opensource-demo.orangehrmlive.com/
-BROWSER=chrome
-```
 
-## 🤝 Contribuição
-1. Faça um Fork do projeto
 
-2. Crie uma Branch (git checkout -b feature/nova-funcionalidade)
 
-3. Commit suas mudanças (git commit -m 'Adiciona nova feature')
 
-4. Push para a Branch (git push origin feature/nova-funcionalidade)
-
-5. Abra um Pull Request
