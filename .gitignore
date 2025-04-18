@@ -1,7 +1,18 @@
-# Compiled class file
+# Arquivos Compilados
 *.class
+*.jar
+*.war
+*.ear
+*.log
 
-# Log file
+# Pastas de build e dependências
+target/
+build/
+out/
+bin/
+.gradle/
+
+# Arquivos de LOGs
 *.log
 
 # BlueJ files
